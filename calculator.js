@@ -1,11 +1,40 @@
 if (Meteor.isClient) {
-    var display = 'display';
-    Session.setDefault(display, '');
+    const calculator = {
+        result: 'result',
+        init: function() {
+            Session.setDefault(this.result, '');
+        },
+        getResult: function() {
+            return Session.get(this.result);
+        },
+        setResult: function(data) {
+            Session.set(this.result, data)
+        },
+        calc: function() {
+            this.setResult(
+                eval(this.getResult())
+            );
+        },
+        clear: function() {
+            this.setResult('');
+        },
+        undo: function() {
+            this.setResult(
+                this.getResult().slice(0,-1)
+            );
+        },
+        add: function(data) {
+            this.setResult(
+                this.getResult() + data
+            );
+        }
+    };
+    calculator.init();
 
     Template.display.helpers({
         placeholder: '1+2=3',
         result: function () {
-            return Session.get(display);
+            return calculator.getResult();
         }
     });
 
@@ -48,20 +77,20 @@ if (Meteor.isClient) {
 
     Template.button.events({
         'click button': function (event) {
-            var buttonValue = event.target.value;
-            var output = Session.get(display);
-            if (isNaN(buttonValue)) {
-                if(buttonValue == "=") {
-                    Session.set(display, eval(output));
-                } else if (buttonValue == "C") {
-                    Session.set(display, '');
-                } else if (buttonValue == '<') {
-                    Session.set(display, output.slice(0, -1));
-                } else {
-                    Session.set(display, output + buttonValue);
-                }
-            } else {
-                Session.set(display, output + buttonValue);
+            const value = event.target.value;
+            switch (value) {
+                case '=':
+                    calculator.calc();
+                    break;
+                case 'C':
+                    calculator.clear();
+                    break;
+                case '<':
+                    calculator.undo();
+                    break;
+                default:
+                    calculator.add(value);
+                    break;
             }
         }
     });

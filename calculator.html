@@ -1,0 +1,54 @@
+<head>
+    <title>calculator</title>
+</head>
+
+<body>
+    {{> calculator }}
+</body>
+
+<template name="calculator">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-6 col-md-offset-3">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1>Calculator</h1>
+                    </div>
+                </div>
+                <form>
+                    {{> display }}
+                    {{> numpad }}
+                </form>
+            </div>
+    </div>
+    </div>
+</template>
+
+
+<template name="display">
+    <div class="row">
+        <div class="col-xs-12">
+            {{> input placeholder=placeholder value=result }}
+        </div>
+    </div>
+</template>
+
+<template name="numpad">
+    {{#each buttons}}
+        <div class="row">
+            {{#each .}}
+                <div class="col-xs-3">
+                    {{> button value=value classType=classType}}
+                </div>
+            {{/each}}
+        </div>
+    {{/each}}
+</template>
+
+<template name="button">
+    <button type="button" class="btn btn-{{ classType }} btn-lg btn-block" value="{{ value }}">{{ value }}</button>
+</template>
+
+<template name="input">
+    <input type="text" class="form-control input-lg text-right" id="display" placeholder="{{placeholder}}" value="{{value}}" readonly>
+</template>

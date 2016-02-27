@@ -1,0 +1,5 @@
+form .row:not(:last-child) {
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid #cccccc;
+}

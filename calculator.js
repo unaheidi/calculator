@@ -62,7 +62,7 @@ if (Meteor.isClient) {
                 } else if (buttonValue == "C") {
                     Session.set(display, '');
                 } else if (buttonValue == '<') {
-                    Session.set(display, output.slice(0, -1));
+                    Session.set(display, output.toString().slice(0, -1));
                 } else {
                     Session.set(display, output + buttonValue);
                 }

@@ -52,7 +52,13 @@ if (Meteor.isClient) {
             var output = Session.get(display);
             if (isNaN(buttonValue)) {
                 if(buttonValue == "=") {
-                    Session.set(display, eval(output));
+                    try {
+                      eval(output);
+                      Session.set(display, eval(output));
+                    } catch (err) {
+                      console.log("The calculation formula has errors! Please check it:" + output);
+                      Session.set(display, '');
+                    }
                 } else if (buttonValue == "C") {
                     Session.set(display, '');
                 } else if (buttonValue == '<') {
